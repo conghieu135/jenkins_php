@@ -7,9 +7,9 @@
     <property name="phploc" value="/home/jenkins/vendor/bin/phploc"/>
     <property name="phpmd" value="/home/jenkins/vendor/bin/phpmd"/>
 
-    <target name="full-build" depends="prepare,static-analysis,-check-failure" description="Performs static analysis, runs the tests, and generates project documentation"/>
+    <target name="full-build" depends="prepare,static-analysis" description="Performs static analysis, runs the tests, and generates project documentation"/>
 
-    <target name="full-build-parallel" depends="prepare,static-analysis-parallel,-check-failure" description="Performs static analysis (executing the tools in parallel), runs the tests, and generates project documentation"/>
+    <target name="full-build-parallel" depends="prepare,static-analysis-parallel" description="Performs static analysis (executing the tools in parallel), runs the tests, and generates project documentation"/>
 
     <target name="quick-build" depends="prepare,lint" description="Performs a lint check and runs the tests (without generating code coverage reports)"/>
 
