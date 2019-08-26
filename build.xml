@@ -1,4 +1,4 @@
-<project name="jenkins-php" default="full-build">
+<project name="jenkins-php" default="1">
     <!--  By default, we assume all tools to be on the $PATH  -->
     <property name="pdepend" value="pdepend"/>
     <property name="phpcpd" value="phpcpd"/>
