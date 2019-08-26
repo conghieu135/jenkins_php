@@ -1,86 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="jenkins-php" default="full-build">
     <!-- By default, we assume all tools to be on the $PATH -->
-    <property name="pdepend" value="/home/jenkins/vendor/bin/pdepend"/>
-    <property name="phpcpd" value="/home/jenkins/vendor/bin/phpcpd"/>
-    <property name="phpcs" value="/home/jenkins/vendor/bin/phpcs"/>
-    <property name="phploc" value="/home/jenkins/vendor/bin/phploc"/>
-    <property name="phpmd" value="/home/jenkins/vendor/bin/phpmd"/>
-
+   
     <target name="full-build" description="Performs static analysis, runs the tests, and generates project documentation"/>
 
     <target name="full-build-parallel"  description="Performs static analysis (executing the tools in parallel), runs the tests, and generates project documentation"/>
 
-    <target name="quick-build" depends="prepare,lint" description="Performs a lint check and runs the tests (without generating code coverage reports)"/>
-
-    <target name="static-analysis" depends="lint,phploc-ci,pdepend,phpcs-ci,phpcpd-ci" description="Performs static analysis" />
-
-    <!-- Adjust the threadCount attribute's value to the number of CPUs -->
-
-    <target name="clean" unless="clean.done" description="Cleanup build artifacts">
-        <delete dir="${basedir}/build/api"/>
-        <delete dir="${basedir}/build/coverage"/>
-        <delete dir="${basedir}/build/logs"/>
-        <delete dir="${basedir}/build/pdepend"/>
-        <property name="clean.done" value="true"/>
-    </target>
-
-    <target name="prepare" unless="prepare.done" depends="clean" description="Prepare for build">
-        <mkdir dir="${basedir}/build/api"/>
-        <mkdir dir="${basedir}/build/coverage"/>
-        <mkdir dir="${basedir}/build/logs"/>
-        <mkdir dir="${basedir}/build/pdepend"/>
-        <property name="prepare.done" value="true"/>
-    </target>
-
-    <target name="lint" unless="lint.done" description="Perform syntax check of sourcecode files">
-        <apply executable="php" taskname="lint">
-            <arg value="-l" />
-
-            <fileset dir="${basedir}/src">
-                <include name="**/*.php" />
-                <modified />
-            </fileset>
-
-        </apply>
-
-        <property name="lint.done" value="true"/>
-    </target>
-
-    <target name="phploc" unless="phploc.done" description="Measure project size using PHPLOC and print human readable output. Intended for usage on the command line.">
-        <exec executable="${phploc}" taskname="phploc">
-            <arg value="--count-tests" />
-            <arg path="${basedir}/src" />
-            <arg value="--exclude"/>
-            <arg path="${basedir}/src/libs" />
-            <arg value="--exclude"/>
-            <arg path="${basedir}/src/templates" />
-            <arg value="--exclude"/>
-            <arg path="${basedir}/src/Vendor" />
-            <arg path="${basedir}/tests" />
-        </exec>
-
-        <property name="phploc.done" value="true"/>
-    </target>
-
-    <target name="phploc-ci" unless="phploc.done" depends="prepare" description="Measure project size using PHPLOC and log result in CSV and XML format. Intended for usage within a continuous integration environment.">
-        <exec executable="${phploc}" taskname="phploc">
-            <arg value="--count-tests" />
-            <arg value="--log-csv" />
-            <arg path="${basedir}/build/logs/phploc.csv" />
-            <arg value="--log-xml" />
-            <arg path="${basedir}/build/logs/phploc.xml" />
-            <arg value="--exclude"/>
-            <arg path="${basedir}/src/libs" />
-            <arg value="--exclude"/>
-            <arg path="${basedir}/src/templates" />
-            <arg value="--exclude"/>
-            <arg path="${basedir}/src/Vendor" />
-
-            <arg path="${basedir}/src" />
-        </exec>
-
-        <property name="phploc.done" value="true"/>
-    </target>
-    
 </project>
