@@ -6,14 +6,12 @@
     <property name="phpcs" value="/home/jenkins/vendor/bin/phpcs"/>
     <property name="phploc" value="/home/jenkins/vendor/bin/phploc"/>
     <property name="phpmd" value="/home/jenkins/vendor/bin/phpmd"/>
-    <property name="phpunit" value="/home/jenkins/vendor/bin/phpunit"/>
 
+    <target name="full-build" depends="prepare,static-analysis,-check-failure" description="Performs static analysis, runs the tests, and generates project documentation"/>
 
-    <target name="full-build" depends="prepare,static-analysis,phpunit,-check-failure" description="Performs static analysis, runs the tests, and generates project documentation"/>
+    <target name="full-build-parallel" depends="prepare,static-analysis-parallel,-check-failure" description="Performs static analysis (executing the tools in parallel), runs the tests, and generates project documentation"/>
 
-    <target name="full-build-parallel" depends="prepare,static-analysis-parallel,phpunit,-check-failure" description="Performs static analysis (executing the tools in parallel), runs the tests, and generates project documentation"/>
-
-    <target name="quick-build" depends="prepare,lint,phpunit-no-coverage" description="Performs a lint check and runs the tests (without generating code coverage reports)"/>
+    <target name="quick-build" depends="prepare,lint" description="Performs a lint check and runs the tests (without generating code coverage reports)"/>
 
     <target name="static-analysis" depends="lint,phploc-ci,pdepend,phpcs-ci,phpcpd-ci" description="Performs static analysis" />
 
@@ -151,13 +149,5 @@
     </target>
 
     
-    <target name="-check-failure">
-        <fail message="PHPUnit did not finish successfully">
-            <condition>
-                <not>
-                    <equals arg1="${result.phpunit}" arg2="0"/>
-                </not>
-            </condition>
-        </fail>
-    </target>
+    
 </project>
